@@ -1,0 +1,43 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{%block title%}Notes{%endblock%}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{static 'notes/style.css'}" rel="stylesheet"> 
+    </head>
+    <body>
+        <div class="p-3">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex align-items-center" id="navbarTogglerDemo01">
+        <a class="navbar-brand me-4" href="#">NOTEon</a>
+
+        <ul class="navbar-nav d-flex flex-row gap-3 mb-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Archive</a>
+          </li>
+        </ul>
+
+        <!-- Put ms-5 directly on the form element here -->
+        <form class="d-flex ms-5" role="search">
+          <button class="btn btn-outline-success" type="button">+ New Note</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+
+        </ul>
+    </body>
+    
+</html>
