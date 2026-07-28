@@ -1,3 +1,13 @@
-.bg-body-tertiary{
-    align-items: center;
+/* Styling for outline style with custom hover effect */
+.custom-search-btn {
+  color: #64748B;
+  border-color: #64748B;
+  background-color: transparent;
+}
+
+/* Hover state */
+.custom-search-btn:hover {
+  color: #ffffff;
+  background-color: #64748B;
+  border-color: #64748B;
 }
