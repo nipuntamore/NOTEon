@@ -26,3 +26,9 @@ def New_Task(request):
         form = create_todo()
     return render(request, "notes/newtodo.html",{'form':form})
 
+def Archive(request):
+    notes_list = notes.objects.all()
+    context ={
+        'notes': notes_list       
+    }
+    return render(request,"notes/archive.html",context)
