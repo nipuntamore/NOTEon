@@ -1,11 +1,12 @@
 {%extends "notes/layout.html"%}
 {%block body%}
     <div class="container mt-4">
-        <h2>New Task</h2>
+        <h2 class="display-3">New Task</h2>
+        
         <form method="post" action="{% url 'newtask' %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save Note</button>
+             <button type="submit" class="btn btn-primary mb-3">Save</button>
         </form>
     </div>
 {%endblock%}
