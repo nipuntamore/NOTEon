@@ -8,7 +8,7 @@
         {% elif hour < 16 %}
             <h1 class="display-3 "></h1>>Good afternoon!</h1>
         {% else %}
-            <h1 class="display-3 ">Good evening!</h1>
+            <h1 class="display-3 ">Good evening {{user}}!</h1>
         {% endif %}
 
     {% endwith %}
@@ -41,6 +41,10 @@
         {% empty %}
             <div class="col-12">
                 <p class="text-muted">No notes available.</p>
+                    <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'newtask' %}" method="post" >
+                    {% csrf_token %}
+                    <button class="btn btn-outline-success" type="submit">Add New Note to proceed</button>
+                </form>
             </div>
         {% endfor %}
     </div>

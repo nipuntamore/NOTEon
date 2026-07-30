@@ -1,11 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import create_todo
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import User, notes
+from django.contrib.auth.decorators import login_required 
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -72,6 +75,10 @@ def index(request):
 
 
 def New_Task(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to create a task!")
+        return redirect("login")
+    
     if request.method == 'POST':
         form = create_todo(request.POST)
         if form.is_valid():
@@ -82,6 +89,9 @@ def New_Task(request):
     return render(request, "notes/newtodo.html",{'form':form})
 
 def Archive(request):
+    if not request.user.is_authenticated:
+            messages.error(request, "You must be logged in to create a task!")
+            return redirect("login")
     notes_list = notes.objects.all()
     isarchived = True
     context ={
