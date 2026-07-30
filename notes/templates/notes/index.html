@@ -4,9 +4,9 @@
     {% with hour=time|date:"H"|add:"0" %}
         
         {% if hour < 12 %}
-            <h1 class="display-3 ">Good morning!</h1>
+            <h1 class="display-3 ">Good morning {{user}}!</h1>
         {% elif hour < 16 %}
-            <h1 class="display-3 "></h1>>Good afternoon!</h1>
+            <h1 class="display-3 "></h1>>Good afternoon {{user}}!</h1>
         {% else %}
             <h1 class="display-3 ">Good evening {{user}}!</h1>
         {% endif %}
