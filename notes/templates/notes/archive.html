@@ -2,11 +2,12 @@
 {% block body %}
     <h2 class="display-4 ">Archive</h2>
 
-{%if notes.isarchived%}
+
     <div class="container my-4">
         <!-- Responsive Row: 1 column on mobile, 2 on tablets, 3 on desktop -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" >
             {% for note in notes %}
+                {%if notes.isarchived%}
                 <div class="col" style="margin-block: 15px;">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body d-flex flex-column">
@@ -27,12 +28,14 @@
                         </div>
                     </div>
                 </div>
+                {%endif%}
             {% empty %}
                 <div class="col-12">
                     <p class="text-muted">No tasks are completed yet..</p>
                 </div>
+            
             {% endfor %}
         </div>
     </div>
-{%endif%}
+
 {%endblock%}
