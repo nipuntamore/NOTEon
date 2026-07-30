@@ -27,7 +27,7 @@ class notes(models.Model):
         default=False,
         null=True
     )
-
+    user_1 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return self.title
 

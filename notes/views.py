@@ -63,15 +63,17 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "notes/register.html")
-
 def index(request):
+    notes_list = notes.objects.none()
+    if request.user.is_authenticated:
+        notes_list = notes.objects.filter(user_1=request.user)
+
     current_time = timezone.now()
-    notes_list = notes.objects.all()
-    context ={
+    context = {
         'notes': notes_list,
-        'time':current_time        
+        'time': current_time,
     }
-    return render(request,"notes/index.html",context)
+    return render(request, "notes/index.html", context)
 
 
 def New_Task(request):
@@ -82,11 +84,14 @@ def New_Task(request):
     if request.method == 'POST':
         form = create_todo(request.POST)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.user_1 = request.user
+            task.save()
             return HttpResponseRedirect(reverse("index"))
     else:
         form = create_todo()
     return render(request, "notes/newtodo.html",{'form':form})
+
 
 def Archive(request):
     if not request.user.is_authenticated:

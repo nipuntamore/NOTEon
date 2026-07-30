@@ -1,9 +1,10 @@
 from django import forms
-from .models import notes
+from .models import notes, User
 
 class create_todo(forms.ModelForm):
     class Meta:
         model = notes
+        user_1 = User
         fields = ['title','content','priority','attachment']
 
         widgets = {
