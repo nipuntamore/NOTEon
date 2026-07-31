@@ -24,8 +24,7 @@ class notes(models.Model):
         validators=[FileExtensionValidator(allowed_extensions=['pdf','jpg','jpeg','png'])]
     )
     isarchived = models.BooleanField(
-        default=False,
-        null=True
+        default=False
     )
     user_1 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):

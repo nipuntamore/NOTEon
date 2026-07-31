@@ -66,7 +66,7 @@ def register(request):
 def index(request):
     notes_list = notes.objects.none()
     if request.user.is_authenticated:
-        notes_list = notes.objects.filter(user_1=request.user)
+        notes_list = notes.objects.filter(user_1=request.user, isarchived = False)
 
     current_time = timezone.now()
     context = {
@@ -75,6 +75,18 @@ def index(request):
     }
     return render(request, "notes/index.html", context)
 
+
+def Archive(request):
+    if not request.user.is_authenticated:
+            messages.error(request, "You must be logged in to create a task!")
+            return redirect("login")
+    notes_list = notes.objects.none()
+    if request.user.is_authenticated:
+        notes_list = notes.objects.filter(user_1=request.user, isarchived = True)      
+    context ={
+        'notes': notes_list       
+    }
+    return render(request,"notes/archive.html",context) 
 
 def New_Task(request):
     if not request.user.is_authenticated:
@@ -92,14 +104,17 @@ def New_Task(request):
         form = create_todo()
     return render(request, "notes/newtodo.html",{'form':form})
 
-
-def Archive(request):
-    if not request.user.is_authenticated:
-            messages.error(request, "You must be logged in to create a task!")
-            return redirect("login")
-    notes_list = notes.objects.all()
-    isarchived = True
-    context ={
-        'notes': notes_list       
-    }
-    return render(request,"notes/archive.html",context)
+def toggle_done(request, note_id):
+    note = notes.objects.none()
+    if request.method == "POST" and request.user.is_authenticated:
+        note = notes.objects.get(id=note_id, user_1=request.user)
+        note.isarchived = True
+        note.save()
+    return HttpResponseRedirect(reverse("index"))
+def toggle_undone(request, note_id):
+    note = notes.objects.none()
+    if request.method == "POST" and request.user.is_authenticated:
+        note = notes.objects.get(id=note_id, user_1=request.user)
+        note.isarchived = False
+        note.save()
+    return HttpResponseRedirect(reverse("index"))
