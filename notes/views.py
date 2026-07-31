@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import create_todo
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -118,3 +118,9 @@ def toggle_undone(request, note_id):
         note.isarchived = False
         note.save()
     return HttpResponseRedirect(reverse("index"))
+def delete_note(request, note_id):
+    if request.method == "POST" and request.user.is_authenticated:
+        note = get_object_or_404(notes, id=note_id, user_1=request.user)
+        note.delete()
+    # Redirect back to whichever page sent the request (Dashboard or Archive)
+    return redirect(request.META.get('HTTP_REFERER', 'index'))

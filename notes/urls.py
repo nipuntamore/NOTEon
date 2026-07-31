@@ -10,4 +10,5 @@ urlpatterns=[
     path('Archive/done/<int:note_id>/', views.toggle_done, name='toggle_done'),
     path('Archive/undone/<int:note_id>/', views.toggle_undone, name='toggle_undone'),
     path("New/",views.New_Task,name='newtask'),
+    path('delete-note/<int:note_id>/', views.delete_note, name='delete_note'),
 ]
