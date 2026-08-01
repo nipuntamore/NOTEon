@@ -12,3 +12,21 @@
   border-color: #64748B;
 }
 
+/* Clean Search List Link Styling */
+.search_list a,
+.search_list a:hover,
+.search_list a:focus,
+.search_list a span {
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Subtle background highlight on hover */
+.search_list a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Remove border on the last list item */
+.search_list li:last-child {
+    border-bottom: none !important;
+}

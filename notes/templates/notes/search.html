@@ -5,13 +5,24 @@
 
 
 {% block body %}
-    <ul>
-       {% for note in notes %}
-    <li>
-        <a href="{% url 'ind' note.id %}">{{ note.title }}</a>
-    </li>
-{% empty %}
-    <li>No matching notes found.</li>
-{% endfor %}
+<div class="container my-4" style="max-width: 600px;">
+    <ul class="search_list list-unstyled border rounded shadow-sm overflow-hidden bg-white">
+        {% for note in notes %}
+            <li class="border-bottom last-border-0">
+                <a href="{% url 'ind' note.id %}" class="d-block p-3 text-dark text-decoration-none">
+                    <span class="fw-bold fs-5 d-block text-primary">{{ note.title }}</span>
+                    {% if note.content %}
+                        <small class="text-muted d-block text-truncate mt-1" style="max-width: 500px;">
+                            {{ note.content }}
+                        </small>
+                    {% endif %}
+                </a>
+            </li>
+        {% empty %}
+            <li class="p-4 text-center text-muted fs-6">
+                No matching notes found.
+            </li>
+        {% endfor %}
     </ul>
+</div>
 {% endblock %}
