@@ -29,7 +29,7 @@
                     <a class="nav-link active" href="{% url 'archive' %}">Archive</a>
                 </li>
                 <li>
-                    <form class="form-inline my-2 my-lg-0 mr-auto">
+                    <form class="form-inline my-2 my-lg-0 mr-auto" action="{% url 'search' %}">
                         <input style="margin-left: 20px;" class="form-control me-3 " type="search" placeholder="Search" aria-label="Search"/>
                         <button class="btn custom-search-btn " type="submit">Search Notes</button>
                     </form>

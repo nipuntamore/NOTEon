@@ -1,0 +1,17 @@
+{% extends "notes/layout.html" %}
+{% block title %}
+    {{suggestions}}
+{% endblock %}
+
+
+{% block body %}
+    <ul>
+       {% for note in notes %}
+    <li>
+        <a href="{% url 'ind' note.id %}">{{ note.title }}</a>
+    </li>
+{% empty %}
+    <li>No matching notes found.</li>
+{% endfor %}
+    </ul>
+{% endblock %}

@@ -8,8 +8,8 @@ from django.utils import timezone
 from .models import User, notes
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
-# Replace the old import line with this:
 from .utils import generate_ai_cover_image
+from django.db.models import Q  
 
 
 # Create your views here.
@@ -130,3 +130,18 @@ def delete_note(request, note_id):
         note.delete()
     # Redirect back to whichever page sent the request (Dashboard or Archive)
     return redirect(request.META.get('HTTP_REFERER', 'index'))
+
+def search(request):
+    query = request.GET.get('q','').strip()
+    notes_list = notes.objects.filter(user_1=request.user)
+    related_titles = []
+    if query:
+        notes_list = notes_list.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query)  # Replace 'note_text' with your model's text field name
+        ).distinct()
+        related_titles = list(notes_list.values_list('title', flat=True)) if query else []   
+    context = { 'query': query, 'notes': notes_list, 'related_titles': related_titles, 'suggestion': 'Suggestions' if query else None, }
+    return render(request, 'notes/search.html', context)
+
+

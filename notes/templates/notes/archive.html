@@ -11,7 +11,9 @@
                 <div class="col" style="margin-block: 15px;">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body d-flex flex-column">
-                            <img src="..." class="card-img-top" alt="...">
+                            {% if note.cover_image_url %}
+                                <img src="{{ note.cover_image_url }}" class="card-img-top" alt="AI Cover" style="height: 140px; object-fit: cover;">
+                            {% endif %}
                             <h5 class="card-title">{{ note.title }}</h5>
                             <p class="card-text flex-grow-1">{{ note.content }}</p>
                             
