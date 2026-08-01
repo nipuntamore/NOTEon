@@ -144,4 +144,13 @@ def search(request):
     context = { 'query': query, 'notes': notes_list, 'related_titles': related_titles, 'suggestion': 'Suggestions' if query else None, }
     return render(request, 'notes/search.html', context)
 
+def view_task(request, note_id):
+    notes_list = notes.objects.none()
+    if request.user.is_authenticated:
+        notes_list = notes.objects.filter(user_1=request.user, id = note_id)
 
+    context = {
+        'notes': notes_list,
+    }
+    return render(request, "notes/view.html", context)
+    

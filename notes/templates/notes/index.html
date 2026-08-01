@@ -4,11 +4,11 @@
     {% with hour=time|date:"H"|add:"0" %}
         
         {% if hour < 12 %}
-            <h1 class="display-3 ">Good morning {{user}}!</h1>
+            <h1 class="display-3 ">Good Morning, {{user}}!</h1>
         {% elif hour < 16 %}
-            <h1 class="display-3 "></h1>>Good afternoon {{user}}!</h1>
+            <h1 class="display-3 "></h1>>Good Afternoon, {{user}}!</h1>
         {% else %}
-            <h1 class="display-3 ">Good evening {{user}}!</h1>
+            <h1 class="display-3 ">Good Evening, {{user}}!</h1>
         {% endif %}
 
     {% endwith %}
@@ -19,13 +19,21 @@
         {% for note in notes %}
         {%if notes.isarchived == false %}
             <div class="col" style="margin-block: 15px;">
-                <div class="card h-100 shadow-sm">
+                <div class="card h-100 shadow-sm border border-4 
+                    {% if note.priority|upper == 'HIGH' %}
+                        border-danger
+                    {% elif note.priority|upper == 'MEDIUM' %}
+                        border-warning
+                    {% else %}
+                        border-primary
+                    {% endif %}
+                    mb-3">
                     <div class="card-body d-flex flex-column">
                         {% if note.cover_image_url %}
-                            <img src="{{ note.cover_image_url }}" class="card-img-top" alt="AI Cover" style="height: 140px; object-fit: cover;">
+                            <img src="{{ note.cover_image_url }}" class="card-img-top" alt="{{ note.title }}" style="height: 140px; object-fit: cover;">
                         {% endif %}
                         <h5 class="card-title">{{ note.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ note.content }}</p>
+                        <p class="card-text text-truncate flex-grow-1">{{ note.content }}</p>
                         
                         <!-- Buttons Container -->
                         <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-2 border-top">
@@ -33,7 +41,7 @@
                                 {% csrf_token %}
                                 <button class="btn btn-sm btn-outline-success" style="margin: 5px;">Mark as done</button>
                             </form>
-                                <a href="#" class="btn btn-sm btn-outline-primary" style="margin: 5px;">View Task</a>
+                                <a href="{%url 'view_task' note.id%}" class="btn btn-sm btn-outline-primary" style="margin: 5px;">View Task</a>
                             <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <button class="btn btn-sm btn-outline-danger ms-auto" title="Delete" style="margin: 5px;">
