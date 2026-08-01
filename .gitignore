@@ -1,0 +1,33 @@
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env.*
+*.env
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Django Specific
+db.sqlite3
+db.sqlite3-journal
+media/
+local_settings.py
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log

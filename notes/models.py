@@ -23,6 +23,7 @@ class notes(models.Model):
         null=True,
         validators=[FileExtensionValidator(allowed_extensions=['pdf','jpg','jpeg','png'])]
     )
+    cover_image_url = models.URLField(blank=True, null=True)
     isarchived = models.BooleanField(
         default=False
     )

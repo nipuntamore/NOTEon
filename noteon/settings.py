@@ -9,6 +9,19 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+import os
+from dotenv import load_dotenv
+
+# Load variables from .env file
+load_dotenv()
+
+# Read the Hugging Face token safely
+HF_API_KEY = os.environ.get("HF_API_KEY")
+
+
+load_dotenv()  # Loads variables from .env file into os.environ
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 from pathlib import Path
 

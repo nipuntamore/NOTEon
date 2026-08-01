@@ -8,6 +8,8 @@ from django.utils import timezone
 from .models import User, notes
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
+# Replace the old import line with this:
+from .utils import generate_ai_cover_image
 
 
 # Create your views here.
@@ -98,6 +100,10 @@ def New_Task(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.user_1 = request.user
+            task.cover_image_url = generate_ai_cover_image(
+                note_title=task.title, 
+                note_text=task.content
+            )
             task.save()
             return HttpResponseRedirect(reverse("index"))
     else:

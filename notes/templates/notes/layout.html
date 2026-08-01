@@ -66,7 +66,15 @@
         </nav>
         <div >
             {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
+                <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                    <strong>Signed in as {{ user.username }}</strong> 
+                    <button type="button" 
+                            class="btn border-0 bg-transparent position-absolute top-50 end-0 translate-middle-y me-3 p-1 text-dark " 
+                            data-bs-dismiss="alert" 
+                            aria-label="Close">
+                        <i class="bi bi-x-lg fs-5"></i>
+                    </button>
+                </div>
             {% else %}   
 
                 <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
