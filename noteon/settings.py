@@ -40,7 +40,6 @@ DEBUG = True
 
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'noteon.wsgi.application'
+WSGI_APPLICATION = 'noteon.wsgi.app'
 
 
 # Database
