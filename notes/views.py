@@ -176,26 +176,3 @@ def edit_task(request, note_id):
     # ALWAYS return an HttpResponse at the end for both GET and invalid POST requests
     return render(request, "notes/edit.html", {"form": form, "note": note, "note_id": note_id})
         
-""" if request.method == 'POST':
-        form = create_todo(request.POST)
-        if form.is_valid():
-            
-            task.cover_image_url = generate_ai_cover_image(
-                note_title=task.title, 
-                note_text=task.content
-            )
-            task.save()
-            return HttpResponseRedirect(reverse("index"))
-    else:
-        form = create_todo()
-    return render(request, "notes/newtodo.html",{'form':form})
-
-def edit(request,title):
-    if request.method == "POST":
-        updated_content = request.POST.get('md_data','')
-        util.save_entry(title,updated_content)
-        return redirect("entry", title=title)
-    return render(request,"encyclopedia/edit.html",{
-        "title":title,
-        "entry":util.get_entry(title)
-    })"""
