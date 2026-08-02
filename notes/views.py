@@ -154,3 +154,48 @@ def view_task(request, note_id):
     }
     return render(request, "notes/view.html", context)
     
+def edit_task(request, note_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to create a task!")
+        return redirect("login")
+
+    # Fetch a SINGLE note object belonging to the user (raises 404 if not found)
+    note = get_object_or_404(notes, id=note_id, user_1=request.user)
+
+    if request.method == "POST":
+        form = create_todo(request.POST, request.FILES or None, instance=note)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user_1 = request.user
+            task.save()  # Save after setting the user
+            return redirect("index")
+    else:
+        # For GET requests, pre-fill the form with the existing note's data
+        form = create_todo(instance=note)
+
+    # ALWAYS return an HttpResponse at the end for both GET and invalid POST requests
+    return render(request, "notes/edit.html", {"form": form, "note": note, "note_id": note_id})
+        
+""" if request.method == 'POST':
+        form = create_todo(request.POST)
+        if form.is_valid():
+            
+            task.cover_image_url = generate_ai_cover_image(
+                note_title=task.title, 
+                note_text=task.content
+            )
+            task.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = create_todo()
+    return render(request, "notes/newtodo.html",{'form':form})
+
+def edit(request,title):
+    if request.method == "POST":
+        updated_content = request.POST.get('md_data','')
+        util.save_entry(title,updated_content)
+        return redirect("entry", title=title)
+    return render(request,"encyclopedia/edit.html",{
+        "title":title,
+        "entry":util.get_entry(title)
+    })"""
