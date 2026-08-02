@@ -1,15 +1,14 @@
 {
   "builds": [
     {
-      "src": "noteon/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
+      "src": "index.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "noteon/wsgi.py"
+      "dest": "index.py"
     }
   ]
 }
