@@ -1,5 +1,5 @@
 Django>=5.0
-google-generativeai
+google-genai
 huggingface_hub
 requests
 python-dotenv
