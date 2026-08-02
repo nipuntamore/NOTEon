@@ -62,12 +62,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'noteon.wsgi.application'
 
 # FIX 2: Store SQLite in /tmp for serverless read-only environment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/db.sqlite3',
+# Database configuration (Local vs Vercel Serverless)
+# Database configuration for local Windows dev vs Vercel serverless
+if os.environ.get('VERCEL'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_USER_MODEL = 'notes.User'
 
