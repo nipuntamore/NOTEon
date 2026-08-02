@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'noteon.settings')
 
 app = get_wsgi_application()
 
-# Run migrations automatically in serverless /tmp
+# Run database migrations in Vercel's temporary /tmp folder on startup
 try:
     call_command('migrate', interactive=False)
 except Exception as e:
