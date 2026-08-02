@@ -4,7 +4,7 @@
     {% for note in notes %}
     
         <div class="container my-5" style="max-width: 800px;">
-                <div class="card shadow-sm rounded-4 border-top border-4 border-primary border bg-white
+                <div style="border-top-width: 8px !important;border-left-width: 8px !important;border-radius: 10px" class="card shadow-lg rounded-4 border-top border-4 border-primary border bg-white
                     {% if note.priority|upper == 'HIGH' %}
                         border-danger
                     {% elif note.priority|upper == 'MEDIUM' %}

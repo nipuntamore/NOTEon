@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="{% static 'notes/logo.png' %}">
+        
         <title>{%block title%}NOTEon{%endblock%}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'notes/style.css' %}" rel="stylesheet">
@@ -14,8 +15,8 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
-          <a class="navbar-brand mr-4" href="{% url 'index'%}"><strong>NOTEon</strong></a>
-
+          <a class="navbar-brand mr-4" href="{% url 'index'%}"><img src="{% static 'notes/full-logo1.png' %}" alt="Logo" height="50" class="d-inline-block align-text-top" style="margin-left: 15px;"></a>
+            <!--<strong>NOTEon</strong>-->
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
