@@ -64,12 +64,17 @@ WSGI_APPLICATION = 'noteon.wsgi.application'
 # FIX 2: Store SQLite in /tmp for serverless read-only environment
 # Database configuration (Local vs Vercel Serverless)
 # Database configuration for local Windows dev vs Vercel serverless
-if os.environ.get('VERCEL'):
+import dj_database_url
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/tmp/db.sqlite3',
-        }
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
 else:
     DATABASES = {
