@@ -2,65 +2,71 @@
 {% block body %}
     <!-- Convert the hour to an integer once at the top for cleaner checks -->
     {% with hour=time|date:"H"|add:"0" %}
-        
         {% if hour < 12 %}
-            <h1 class="display-3" >Good Morning, {{user}}!</h1>
+            <h1 class="display-3">Good Morning, {{ user }}!</h1>
         {% elif hour < 16 %}
-            <h1 class="display-3 "></h1>>Good Afternoon, {{user}}!</h1>
+            <h1 class="display-3">Good Afternoon, {{ user }}!</h1>
         {% else %}
-            <h1 class="display-3 ">Good Evening, {{user}}!</h1>
+            <h1 class="display-3">Good Evening, {{ user }}!</h1>
         {% endif %}
-
     {% endwith %}
     
 <div class="container my-4">
     <!-- Responsive Row: 1 column on mobile, 2 on tablets, 3 on desktop -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" >
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for note in notes %}
-        {%if notes.isarchived == false %}
-            <div class="col" style="margin-block: 15px;">
-                <div style="border-top-width: 8px !important;border-left-width: 8px !important;border-radius: 10px" class="card h-100 shadow-lg border border-4 
-                    {% if note.priority|upper == 'HIGH' %}
-                        border-danger
-                    {% elif note.priority|upper == 'MEDIUM' %}
-                        border-warning
-                    {% else %}
-                        border-primary
-                    {% endif %}
-                    mb-3">
-                    <div class="card-body d-flex flex-column">
-                        {% if note.cover_image_url %}
-                            <img src="{{ note.cover_image_url }}" class="card-img-top" alt="{{ note.title }}" style="height: 140px; object-fit: cover; margin-bottom: 15px; border-radius: 10px;">
-                        {% endif %}
-                        <h5 class="card-title">{{ note.title }}</h5>
-                        <p class="card-text text-truncate flex-grow-1">{{ note.content }}</p>
+            {% if not note.isarchived %}
+                <div class="col" style="margin-block: 15px;">
+                    <div style="border-top-width: 8px !important; border-left-width: 8px !important; border-radius: 10px;" 
+                         class="card h-100 shadow-lg border border-4 
+                         {% if note.priority|upper == 'HIGH' %}
+                             border-danger
+                         {% elif note.priority|upper == 'MEDIUM' %}
+                             border-warning
+                         {% else %}
+                             border-primary
+                         {% endif %}
+                         mb-3">
                         
-                        <!-- Buttons Container -->
-                        <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-2 border-top">
-                            <form action="{% url 'toggle_done' note.id %}" method="post">
-                                {% csrf_token %}
-                                <button class="btn btn-sm btn-outline-success" style="margin: 5px;">Mark as done</button>
-                            </form>
-                                <a href="{%url 'view_task' note.id%}" class="btn btn-sm btn-outline-primary" style="margin: 5px;">View Task</a>
-                            <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <button class="btn btn-sm btn-outline-danger ms-auto" title="Delete" style="margin: 5px;">
-                            </form>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                    </svg>
-                                </a>
+                        <div class="card-body d-flex flex-column">
+                            {% if note.cover_image_url %}
+                                <img src="{{ note.cover_image_url }}" 
+                                     class="card-img-top" 
+                                     alt="{{ note.title }}" 
+                                     style="height: 140px; object-fit: cover; margin-bottom: 15px; border-radius: 10px;"
+                                     onerror="this.onerror=null; this.src='https://picsum.photos/800/400?blur=2';">
+                            {% endif %}
                             
+                            <h5 class="card-title">{{ note.title }}</h5>
+                            <p class="card-text text-truncate flex-grow-1">{{ note.content }}</p>
+                            
+                            <!-- Buttons Container -->
+                            <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-2 border-top">
+                                <form action="{% url 'toggle_done' note.id %}" method="post" class="m-0">
+                                    {% csrf_token %}
+                                    <button class="btn btn-sm btn-outline-success">Mark as done</button>
+                                </form>
+                                
+                                <a href="{% url 'view_task' note.id %}" class="btn btn-sm btn-outline-primary">View Task</a>
+                                
+                                <form action="{% url 'delete_note' note.id %}" method="post" class="ms-auto m-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {%endif%}
+            {% endif %}
         {% empty %}
             <div class="col-12">
                 <p class="text-muted">No notes available.</p>
-                    <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'newtask' %}" method="post" >
+                <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'newtask' %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-outline-success" type="submit">Add New Note to proceed</button>
                 </form>
@@ -69,4 +75,3 @@
     </div>
 </div>
 {% endblock %}
-

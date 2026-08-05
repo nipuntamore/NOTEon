@@ -10,7 +10,7 @@ def generate_detailed_art_prompt(note_title, note_text):
     
     # Fallback default if API key is missing
     if not GEMINI_KEY:
-        return f"sleek modern technological setup representing {note_title}"
+        return f"modern clean illustration of {note_title}"
 
     try:
         client = genai.Client(api_key=GEMINI_KEY)
@@ -19,7 +19,7 @@ def generate_detailed_art_prompt(note_title, note_text):
             f"Title: {note_title}\n"
             f"Content: {note_text}\n\n"
             "Create a vivid, 1-sentence prompt describing a sleek photographic visual representing this topic.\n"
-            "Rules: Output ONLY the raw visual description text. No quotes, no markdown, no dashes, no meta text."
+            "Rules: Output ONLY raw text. No quotes, no markdown, no punctuation, no dashes."
         )
         
         response = client.models.generate_content(
@@ -28,13 +28,12 @@ def generate_detailed_art_prompt(note_title, note_text):
         )
         
         raw_prompt = response.text.strip()
-        # Clean quotes and unwanted symbols out of Gemini output
-        cleaned_prompt = re.sub(r'[\r\n"\'`\-\->]', ' ', raw_prompt)
+        cleaned_prompt = re.sub(r'[^a-zA-Z0-9\s]', ' ', raw_prompt)
         return " ".join(cleaned_prompt.split())
 
     except Exception as e:
         print(f"\n[Gemini API Warning] {e}\nFalling back to default prompt generation...")
-        return f"a vibrant 3D conceptual visual representation of {note_title}"
+        return f"modern clean concept of {note_title}"
 
 
 def generate_ai_cover_image(note_title, note_text=""):
@@ -44,14 +43,14 @@ def generate_ai_cover_image(note_title, note_text=""):
     """
     visual_prompt = generate_detailed_art_prompt(note_title, note_text)
     
-    # 1. Sanitize prompt text to plain letters, numbers, spaces, and commas
-    sanitized_prompt = re.sub(r'[^a-zA-Z0-9\s,]', '', visual_prompt)
+    # 1. Sanitize prompt text
+    sanitized_prompt = re.sub(r'[^a-zA-Z0-9\s]', '', visual_prompt).strip()
     
-    # 2. Stable, non-negative integer seed using MD5 hash (prevents Python runtime seed drift)
+    # 2. Positive deterministic seed
     raw_hash = hashlib.md5(f"{note_title}_{note_text}".encode('utf-8')).hexdigest()
-    deterministic_seed = int(raw_hash, 16) % 100000
+    deterministic_seed = int(raw_hash, 16) % 99999
     
-    # 3. Strictly encode all non-alphanumeric characters for the URL path
-    encoded_prompt = urllib.parse.quote(sanitized_prompt, safe='')
+    # 3. Encode prompt safely
+    encoded_prompt = urllib.parse.quote(sanitized_prompt)
     
     return f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=400&nologo=true&seed={deterministic_seed}&model=flux"
