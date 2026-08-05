@@ -36,16 +36,16 @@ def generate_detailed_art_prompt(note_title, note_text):
 
 def generate_ai_cover_image(note_title, note_text=""):
     """
-    Generates a ultra-fast, static cover image URL using Unsplash image endpoint.
-    Uses an MD5 hash seed to ensure the image stays consistent for the note.
+    Generates a static keyword-based Unsplash URL with a signature seed.
     """
     keywords = generate_detailed_art_prompt(note_title, note_text)
     
-    # Clean and encode keywords
-    sanitized_keywords = urllib.parse.quote(keywords.strip().lower())
+    # 1. Format keywords into comma-separated query string
+    sanitized = re.sub(r'\s+', '', keywords.strip().lower())
+    encoded_keywords = urllib.parse.quote(sanitized)
     
-    # Hash seed to lock the exact image per note content
+    # 2. Hash seed locks the exact result from Unsplash
     raw_hash = hashlib.md5(f"{note_title}_{note_text}".encode('utf-8')).hexdigest()
     sig = int(raw_hash, 16) % 1000
     
-    return f"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    return f"https://source.unsplash.com/featured/800x400/?{encoded_keywords}&sig={sig}"
