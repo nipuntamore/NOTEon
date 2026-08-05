@@ -34,18 +34,16 @@ def generate_detailed_art_prompt(note_title, note_text):
         return note_title
 
 
+import hashlib
+
 def generate_ai_cover_image(note_title, note_text=""):
     """
-    Generates a static keyword-based Unsplash URL with a signature seed.
+    Generates a fast, unique, and permanent image URL per note using Picsum seeds.
+    Does not time out, never triggers fallback, and remains identical across refreshes.
     """
-    keywords = generate_detailed_art_prompt(note_title, note_text)
+    # Create a unique positive integer seed from the title and text
+    unique_string = f"{note_title.strip().lower()}_{note_text.strip().lower()}"
+    raw_hash = hashlib.md5(unique_string.encode('utf-8')).hexdigest()
+    seed = int(raw_hash, 16) % 100000
     
-    # 1. Format keywords into comma-separated query string
-    sanitized = re.sub(r'\s+', '', keywords.strip().lower())
-    encoded_keywords = urllib.parse.quote(sanitized)
-    
-    # 2. Hash seed locks the exact result from Unsplash
-    raw_hash = hashlib.md5(f"{note_title}_{note_text}".encode('utf-8')).hexdigest()
-    sig = int(raw_hash, 16) % 1000
-    
-    return f"https://source.unsplash.com/featured/800x400/?{encoded_keywords}&sig={sig}"
+    return f"https://picsum.photos/seed/{seed}/800/400"
