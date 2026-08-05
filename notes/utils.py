@@ -38,19 +38,19 @@ def generate_detailed_art_prompt(note_title, note_text):
 
 def generate_ai_cover_image(note_title, note_text=""):
     """
-    Generates a deterministic FLUX AI image URL via Pollinations.
-    Ensures safe URL encoding and positive seed generation.
+    Generates a deterministic AI image URL via Pollinations (Turbo Engine).
+    Fallback uses Unsplash tech/minimal visual instead of random cars/buildings.
     """
     visual_prompt = generate_detailed_art_prompt(note_title, note_text)
     
-    # 1. Sanitize prompt text
+    # 1. Clean prompt text to simple words
     sanitized_prompt = re.sub(r'[^a-zA-Z0-9\s]', '', visual_prompt).strip()
     
     # 2. Positive deterministic seed
     raw_hash = hashlib.md5(f"{note_title}_{note_text}".encode('utf-8')).hexdigest()
     deterministic_seed = int(raw_hash, 16) % 99999
     
-    # 3. Encode prompt safely
+    # 3. Standard %20 space encoding for Pollinations URL paths
     encoded_prompt = urllib.parse.quote(sanitized_prompt)
     
-    return f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=400&nologo=true&seed={deterministic_seed}&model=flux"
+    return f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=400&nologo=true&seed={deterministic_seed}"
