@@ -132,6 +132,11 @@ def delete_note(request, note_id):
     return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 def search(request):
+
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to search for tasks!")
+        return redirect("login")
+
     query = request.GET.get('q','').strip()
     notes_list = notes.objects.filter(user_1=request.user)
     related_titles = []
