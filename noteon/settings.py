@@ -14,8 +14,7 @@ load_dotenv()
 HF_API_KEY = os.environ.get("HF_API_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-SECRET_KEY = 'django-insecure-dx(+c+)^&k!jea=9d1h66_mea38p%$=s1k6_l-u5l%fjd-(39i'
-
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-fallback-key')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*', '.vercel.app', 'localhost', '127.0.0.1']
